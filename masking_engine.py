@@ -1,10 +1,19 @@
 from presidio_analyzer import AnalyzerEngine
 from presidio_anonymizer import AnonymizerEngine
 from presidio_anonymizer.entities import OperatorConfig
+import spacy
+
+# Load spaCy model
+try:
+    nlp = spacy.load("en_core_web_sm")
+except OSError:
+    import subprocess
+    subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"], check=True)
+    nlp = spacy.load("en_core_web_sm")
 
 class SmartMasker:
     def __init__(self):
-        self.analyzer = AnalyzerEngine()
+        self.analyzer = AnalyzerEngine(nlp=nlp)
         self.anonymizer = AnonymizerEngine()
         
         # Keywords that indicate a person is a victim or family member
