@@ -6,7 +6,7 @@
     <title>Kanoon SafeView - Legal Document Protection</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #1e3a5f;
@@ -117,28 +117,27 @@
         }
 
         .logo-text {
-            font-family: 'Playfair Display', serif;
-            font-size: 32px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 28px;
             font-weight: 700;
             color: var(--text-light);
-            letter-spacing: -0.5px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         .hero-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 56px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 72px;
             font-weight: 700;
             color: var(--text-light);
-            line-height: 1.1;
-            margin-bottom: 20px;
-            letter-spacing: -1px;
+            line-height: 1.05;
+            margin-bottom: 24px;
+            letter-spacing: -2px;
         }
 
         .hero-title span {
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-style: italic;
+            color: var(--accent-light);
         }
 
         .hero-subtitle {
@@ -151,61 +150,41 @@
             margin-right: auto;
         }
 
-        /* Search Container with Gradient Border */
+        /* Glassmorphism Search Bar */
         .search-container {
             position: relative;
             width: 100%;
-            max-width: 650px;
+            max-width: 680px;
             margin: 0 auto;
         }
 
-        /* Gradient border wrapper */
-        .search-gradient-border {
-            position: relative;
+        /* Pure Glassmorphism - no yellow tint */
+        .search-glass {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 24px;
-            padding: 4px;
-            background: linear-gradient(
-                135deg,
-                rgba(232, 185, 35, 0.8) 0%,
-                rgba(244, 215, 107, 0.6) 50%,
-                rgba(232, 185, 35, 0.8) 100%
-            );
+            padding: 6px 6px 6px 28px;
+            transition: all 0.3s ease;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
-        .search-gradient-border::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 20px;
-            padding: 1px;
-            background: linear-gradient(
-                135deg,
-                rgba(255, 255, 255, 0.3) 0%,
-                rgba(255, 255, 255, 0.1) 50%,
-                rgba(255, 255, 255, 0.3) 100%
-            );
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            pointer-events: none;
+        .search-glass:focus-within {
+            background: rgba(255, 255, 255, 0.18);
+            border-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 
+                0 12px 40px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
         }
 
         /* Search form */
         .search-form {
             display: flex;
             align-items: center;
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 8px 8px 8px 24px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .search-form:focus-within {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            gap: 12px;
         }
 
         .search-input {
@@ -214,9 +193,9 @@
             border: none;
             outline: none;
             color: var(--text-light);
-            font-size: 16px;
+            font-size: 17px;
             font-family: 'DM Sans', sans-serif;
-            padding: 12px 0;
+            padding: 14px 0;
         }
 
         .search-input::placeholder {
@@ -228,21 +207,21 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
-            color: var(--primary-dark);
-            border: none;
-            padding: 14px 28px;
-            border-radius: 14px;
-            font-size: 15px;
-            font-weight: 600;
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--text-light);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 14px 24px;
+            border-radius: 16px;
+            font-size: 14px;
+            font-weight: 500;
             font-family: 'DM Sans', sans-serif;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .search-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(232, 185, 35, 0.4);
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-1px);
         }
 
         .search-button svg {
@@ -387,7 +366,7 @@
         }
 
         .doc-title {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Cormorant Garamond', serif;
             font-size: 18px;
             font-weight: 600;
             color: var(--text-light);
@@ -418,7 +397,7 @@
         }
 
         .doc-title-large {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Cormorant Garamond', serif;
             font-size: 24px;
             font-weight: 600;
             color: var(--text-light);
@@ -692,7 +671,7 @@
             </p>
 
             <div class="search-container">
-                <div class="search-gradient-border">
+                <div class="search-glass">
                     <form action="/search" method="post" class="search-form">
                         <input 
                             type="text" 
