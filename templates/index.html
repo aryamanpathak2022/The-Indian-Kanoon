@@ -67,8 +67,17 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.35); /* Lighter overlay - more visible bg */
+            background: rgba(0, 0, 0, 0.35);
             z-index: 1;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 800px;
+            pointer-events: auto;
         }
 
         /* Full window background - no curve */
@@ -113,7 +122,9 @@
         }
 
         .beta-badge {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             background: rgba(34, 197, 94, 0.15);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(34, 197, 94, 0.3);
@@ -126,6 +137,20 @@
             vertical-align: middle;
             font-family: 'DM Sans', sans-serif;
             text-transform: uppercase;
+        }
+
+        .beta-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #4ade80;
+            border-radius: 50%;
+            animation: breathe 2s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
         }
 
         .tagline {
@@ -230,14 +255,15 @@
             background: transparent;
             border: none;
             outline: none;
-            color: var(--text-light);
+            color: #ffffff;
             font-size: 17px;
             font-family: 'DM Sans', sans-serif;
             padding: 14px 0;
+            opacity: 1;
         }
 
         .search-input::placeholder {
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.8);
         }
 
         .search-button {
@@ -245,9 +271,9 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            background: rgba(255, 255, 255, 0.15);
-            color: var(--text-light);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: #fbbf24;
+            color: #000000;
+            border: none;
             padding: 14px 24px;
             border-radius: 16px;
             font-size: 14px;
@@ -807,7 +833,7 @@
 
         <div class="hero-content">
             <div class="logo">
-                <span class="beta-badge">Live</span>
+                <span class="beta-badge">Beta</span>
             </div>
 
             <h1 class="hero-title">
@@ -872,7 +898,7 @@
         </div>
 
         <div class="footer">
-            <p class="footer-tagline">Handcrafted with ❤️ at <span>IIT Bangalore</span> • 2026</p>
+            <p class="footer-tagline">Handcrafted with love at <span>IIIT Bangalore</span> • 2026</p>
             <p class="footer-secure">Secure • Private • Free</p>
         </div>
     </div>
