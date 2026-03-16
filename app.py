@@ -30,8 +30,8 @@ async def process_doc(request: Request, doc_id: int):
     original_text = raw_data.get('doc', 'Error fetching document')
     title = raw_data.get('title', 'Unknown Title')
 
-    # 2. Mask
-    masked_text = masker.mask_victims_and_family(original_text)
+    # 2. Mask (now returns tuple: masked_text, analysis)
+    masked_text, analysis = masker.mask_victims_and_family(original_text)
 
     return templates.TemplateResponse("index.html", {
         "request": request,
@@ -39,7 +39,8 @@ async def process_doc(request: Request, doc_id: int):
         "title": title,
         "original_text": original_text,
         "masked_text": masked_text,
-        "view_mode": "compare"
+        "view_mode": "compare",
+        "analysis": analysis
     })
 
 if __name__ == "__main__":
