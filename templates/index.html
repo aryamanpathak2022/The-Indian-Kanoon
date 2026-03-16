@@ -928,28 +928,8 @@
         </div>
     </div>
 
+    <!-- Synchronized Scrolling Script for Comparison Page -->
     <script>
-        function openReportModal() {
-            document.getElementById('reportModal').classList.add('active');
-        }
-        
-        function closeReportModal() {
-            document.getElementById('reportModal').classList.remove('active');
-        }
-        
-        function submitReport(e) {
-            e.preventDefault();
-            alert('Thank you for your report! We will review it shortly.');
-            closeReportModal();
-        }
-        
-        // Close modal on outside click
-        document.getElementById('reportModal').addEventListener('click', function(e) {
-            if (e.target === this) closeReportModal();
-        });
-    </script>
-
-{% elif docs %}
         const originalContent = document.getElementById('original-content');
         const maskedContent = document.getElementById('masked-content');
         
@@ -982,6 +962,28 @@
                 .replace(/\[LOC\]/g, '<mark>[LOC]</mark>');
         }
     </script>
+
+    <script>
+        function openReportModal() {
+            document.getElementById('reportModal').classList.add('active');
+        }
+        
+        function closeReportModal() {
+            document.getElementById('reportModal').classList.remove('active');
+        }
+        
+        function submitReport(e) {
+            e.preventDefault();
+            alert('Thank you for your report! We will review it shortly.');
+            closeReportModal();
+        }
+        
+        // Close modal on outside click
+        document.getElementById('reportModal').addEventListener('click', function(e) {
+            if (e.target === this) closeReportModal();
+        });
+    </script>
+{% endif %}
 
 {% elif docs %}
     <!-- Search Results - Solid Background -->
