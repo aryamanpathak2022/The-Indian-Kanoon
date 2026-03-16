@@ -39,7 +39,7 @@ class KanoonClient:
 
     def get_document(self, doc_id):
         try:
-            resp = requests.get(f"{self.base_url}/doc/{doc_id}/", headers=self.headers)
+            resp = requests.post(f"{self.base_url}/doc/{doc_id}/", headers=self.headers)
             return resp.json() if resp.status_code == 200 else {}
         except Exception as e:
             print(f"Get document error: {e}")
