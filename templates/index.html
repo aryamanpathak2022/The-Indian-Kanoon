@@ -11,10 +11,10 @@
         :root {
             --primary: #1e3a5f;
             --primary-dark: #0f2744;
-            --accent: #e8b923;
-            --accent-light: #f4d76b;
+            --accent: #22c55e;
+            --accent-light: #4ade80;
             --text-light: #ffffff;
-            --text-muted: rgba(255, 255, 255, 0.8);
+            --text-muted: rgba(255, 255, 255, 0.9);
             --glass-bg: rgba(255, 255, 255, 0.1);
             --glass-border: rgba(255, 255, 255, 0.2);
         }
@@ -58,6 +58,7 @@
             height: 100%;
             object-fit: cover;
             object-position: center;
+            filter: brightness(1.15);
         }
 
         .hero-overlay {
@@ -66,34 +67,20 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5); /* Dark overlay only - no blue tint */
+            background: rgba(0, 0, 0, 0.35); /* Lighter overlay - more visible bg */
             z-index: 1;
         }
 
-        /* Curved bottom */
-        .hero-curve {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 120px;
-            z-index: 2;
-        }
-
-        .hero-curve svg {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 100%;
-            fill: #0f2744; /* Match your primary dark color */
-        }
-
-        /* Content */
-        .hero-content {
+        /* Full window background - no curve */
+        .hero-section {
             position: relative;
-            z-index: 10;
-            text-align: center;
-            max-width: 800px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            overflow: hidden;
         }
 
         .logo {
@@ -127,55 +114,60 @@
 
         .beta-badge {
             display: inline-block;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: rgba(255, 255, 255, 0.7);
-            padding: 4px 12px;
+            background: rgba(34, 197, 94, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: #4ade80;
+            padding: 6px 16px;
             border-radius: 20px;
-            font-size: 11px;
-            font-weight: 500;
+            font-size: 12px;
+            font-weight: 600;
             letter-spacing: 0.5px;
-            margin-left: 12px;
             vertical-align: middle;
             font-family: 'DM Sans', sans-serif;
+            text-transform: uppercase;
         }
 
         .tagline {
             font-family: 'DM Sans', sans-serif;
             font-size: 14px;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.8);
             margin-top: 12px;
             letter-spacing: 0.3px;
+            text-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
         }
 
         .tagline span {
-            color: rgba(255, 255, 255, 0.7);
-            font-weight: 500;
+            color: #ffffff;
+            font-weight: 600;
         }
 
         .hero-title {
             font-family: 'Cormorant Garamond', serif;
             font-size: 72px;
             font-weight: 700;
-            color: var(--text-light);
+            color: #ffffff;
             line-height: 1.05;
             margin-bottom: 24px;
             letter-spacing: -2px;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
         }
 
         .hero-title span {
             font-style: italic;
-            color: var(--accent-light);
+            color: #ffffff;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
         }
 
         .hero-subtitle {
-            font-size: 18px;
-            color: var(--text-muted);
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.95);
             line-height: 1.6;
             margin-bottom: 40px;
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
+            text-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
         }
 
         /* Glassmorphism Search Bar */
@@ -344,9 +336,31 @@
             left: 0;
             right: 0;
             text-align: center;
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 12px;
             z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .footer-tagline {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 13px;
+            font-family: 'DM Sans', sans-serif;
+            text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .footer-tagline span {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .footer-secure {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 11px;
+            font-family: 'DM Sans', sans-serif;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
         }
 
         /* Results Section */
@@ -357,6 +371,92 @@
             max-width: 1000px;
             margin: 0 auto;
             padding: 40px 20px;
+        }
+
+        /* Solid background pages (results & compare) */
+        .solid-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+
+        .solid-page .page-header {
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        .solid-page .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .solid-page .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .solid-page .header-logo span {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .solid-page .page-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        .solid-page .page-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 32px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 30px;
+        }
+
+        /* Updated doc-item for dark theme */
+        .solid-page .doc-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 16px;
+            display: block;
+            text-decoration: none;
+        }
+
+        .solid-page .doc-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateX(8px);
+        }
+
+        .solid-page .doc-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .solid-page .doc-headline {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.5;
         }
 
         .results-header {
@@ -570,59 +670,67 @@
 <body>
 
 {% if view_mode == 'compare' %}
-    <!-- Comparison View -->
-    <div class="comparison-section">
-        <div class="comparison-header">
-            <a href="/" class="back-btn">← Back to Search</a>
-            <h1 class="doc-title-large">{{ title }}</h1>
+    <!-- Comparison View - Solid Background -->
+    <div class="solid-page">
+        <div class="page-header">
+            <div class="header-content">
+                <a href="/" class="header-logo">
+                    <span>Legal Privacy</span>
+                </a>
+                <a href="/" class="back-btn">← Back</a>
+            </div>
         </div>
+        
+        <div class="page-content">
+            <h2 class="page-title">{{ title }}</h2>
 
-        <div class="comparison-panels">
-            <div class="panel">
-                <div class="panel-header">
-                    <h3>📄 Original Document</h3>
+            <div class="comparison-panels">
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3>📄 Original Document</h3>
+                    </div>
+                    <div class="panel-content" id="original-content">{{ original_text | safe }}</div>
                 </div>
-                <div class="panel-content" id="original-content">{{ original_text | safe }}</div>
-            </div>
-            <div class="panel">
-                <div class="panel-header safe">
-                    <h3>🛡️ Safe/Masked Version</h3>
+                <div class="panel">
+                    <div class="panel-header safe">
+                        <h3>🛡️ Safe/Masked Version</h3>
+                    </div>
+                    <div class="panel-content" id="masked-content">{{ masked_text | safe }}</div>
                 </div>
-                <div class="panel-content" id="masked-content">{{ masked_text | safe }}</div>
             </div>
-        </div>
 
-        {% if analysis %}
-        <div class="analysis-panel">
-            <h3 class="analysis-title">📊 Reduction Analysis</h3>
-            <div class="analysis-grid">
-                <div class="analysis-card">
-                    <div class="analysis-number">{{ analysis.total_masked }}</div>
-                    <div class="analysis-label">Total Masked Items</div>
-                </div>
-                <div class="analysis-card">
-                    <div class="analysis-number">{{ analysis.victim_family_count }}</div>
-                    <div class="analysis-label">Victims/Family</div>
-                </div>
-                <div class="analysis-card">
-                    <div class="analysis-number">{{ analysis.phone_count }}</div>
-                    <div class="analysis-label">Phone Numbers</div>
-                </div>
-                <div class="analysis-card">
-                    <div class="analysis-number">{{ analysis.email_count }}</div>
-                    <div class="analysis-label">Emails</div>
-                </div>
-                <div class="analysis-card">
-                    <div class="analysis-number">{{ analysis.location_count }}</div>
-                    <div class="analysis-label">Locations</div>
-                </div>
-                <div class="analysis-card">
-                    <div class="analysis-number">{{ analysis.reduction_percentage }}%</div>
-                    <div class="analysis-label">Text Reduction</div>
+            {% if analysis %}
+            <div class="analysis-panel">
+                <h3 class="analysis-title">📊 Reduction Analysis</h3>
+                <div class="analysis-grid">
+                    <div class="analysis-card">
+                        <div class="analysis-number">{{ analysis.total_masked }}</div>
+                        <div class="analysis-label">Total Masked Items</div>
+                    </div>
+                    <div class="analysis-card">
+                        <div class="analysis-number">{{ analysis.victim_family_count }}</div>
+                        <div class="analysis-label">Victims/Family</div>
+                    </div>
+                    <div class="analysis-card">
+                        <div class="analysis-number">{{ analysis.phone_count }}</div>
+                        <div class="analysis-label">Phone Numbers</div>
+                    </div>
+                    <div class="analysis-card">
+                        <div class="analysis-number">{{ analysis.email_count }}</div>
+                        <div class="analysis-label">Emails</div>
+                    </div>
+                    <div class="analysis-card">
+                        <div class="analysis-number">{{ analysis.location_count }}</div>
+                        <div class="analysis-label">Locations</div>
+                    </div>
+                    <div class="analysis-card">
+                        <div class="analysis-number">{{ analysis.reduction_percentage }}%</div>
+                        <div class="analysis-label">Text Reduction</div>
+                    </div>
                 </div>
             </div>
+            {% endif %}
         </div>
-        {% endif %}
     </div>
 
     <script>
@@ -661,18 +769,19 @@
     </script>
 
 {% elif docs %}
-    <!-- Search Results -->
-    <div class="hero-section">
-        <div class="hero-bg">
-            <img src="/static/bg.png" alt="Background">
-        </div>
-        <div class="hero-overlay"></div>
-        
-        <div class="results-section">
-            <div class="results-header">
+    <!-- Search Results - Solid Background -->
+    <div class="solid-page">
+        <div class="page-header">
+            <div class="header-content">
+                <a href="/" class="header-logo">
+                    <span>Legal Privacy</span>
+                </a>
                 <a href="/" class="back-btn">← New Search</a>
-                <span class="results-count">Found {{ docs|length }} documents</span>
             </div>
+        </div>
+        
+        <div class="page-content">
+            <h2 class="page-title">Found {{ docs|length }} documents</h2>
             
             <div class="doc-list">
                 {% for doc in docs %}
@@ -692,20 +801,11 @@
             <img src="/static/bg.png" alt="Background">
         </div>
         <div class="hero-overlay"></div>
-        
-        <div class="hero-curve">
-            <svg viewBox="0 0 1440 120" preserveAspectRatio="none" fill="#0f2744">
-                <path d="M0,64 C288,120 576,0 864,64 C1152,128 1440,64 1440,64 L1440,120 L0,120 Z"></path>
-            </svg>
-        </div>
 
         <div class="hero-content">
             <div class="logo">
-                <div class="logo-icon">⚖️</div>
-                <span class="logo-text">Kanoon SafeView</span>
                 <span class="beta-badge">Currently in Beta</span>
             </div>
-            <p class="tagline">Handcrafted with ❤️ at <span>IIT Bangalore</span> • 2026</p>
 
             <h1 class="hero-title">
                 Legal Document<br><span>Privacy Protection</span>
@@ -769,7 +869,8 @@
         </div>
 
         <div class="footer">
-            Secure • Private • Free
+            <p class="footer-tagline">Handcrafted with ❤️ at <span>IIT Bangalore</span> • 2026</p>
+            <p class="footer-secure">Secure • Private • Free</p>
         </div>
     </div>
 {% endif %}
