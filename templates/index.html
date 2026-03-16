@@ -629,6 +629,174 @@
             font-weight: 500;
         }
 
+        /* Report Button */
+        .report-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .report-btn:hover {
+            background: rgba(239, 68, 68, 0.25);
+            transform: translateY(-2px);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 32px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .modal-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 4px;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            color: #fff;
+        }
+
+        .report-form textarea {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            color: #fff;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 120px;
+            margin-bottom: 16px;
+        }
+
+        .report-form textarea:focus {
+            outline: none;
+            border-color: rgba(239, 68, 68, 0.5);
+        }
+
+        .report-form textarea::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .report-form button {
+            width: 100%;
+            background: #ef4444;
+            color: #fff;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .report-form button:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .loading-screen.active {
+            display: flex;
+        }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(251, 191, 36, 0.2);
+            border-top-color: #fbbf24;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            margin-top: 24px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .loading-subtext {
+            margin-top: 8px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+            font-family: 'DM Sans', sans-serif;
+        }
+
         /* Analysis Panel */
         .analysis-panel {
             background: linear-gradient(135deg, rgba(232, 185, 35, 0.15) 0%, rgba(30, 58, 95, 0.3) 100%);
@@ -698,6 +866,13 @@
 </head>
 <body>
 
+<!-- Loading Screen -->
+<div class="loading-screen" id="loadingScreen">
+    <div class="loader"></div>
+    <p class="loading-text">Analyzing Document</p>
+    <p class="loading-subtext">Redacting sensitive information...</p>
+</div>
+
 {% if view_mode == 'compare' %}
     <!-- Comparison View - Solid Background -->
     <div class="solid-page">
@@ -706,7 +881,16 @@
                 <a href="/" class="header-logo">
                     <span>Legal Privacy</span>
                 </a>
-                <a href="/" class="back-btn">← Back</a>
+                <div style="display: flex; gap: 12px; align-items: center;">
+                    <button class="report-btn" onclick="openReportModal()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
+                            <line x1="4" y1="22" x2="4" y2="15"></line>
+                        </svg>
+                        Report Issue
+                    </button>
+                    <a href="/" class="back-btn">← Back</a>
+                </div>
             </div>
         </div>
         
@@ -716,54 +900,56 @@
             <div class="comparison-panels">
                 <div class="panel">
                     <div class="panel-header">
-                        <h3>📄 Original Document</h3>
+                        <h3>Original Document</h3>
                     </div>
                     <div class="panel-content" id="original-content">{{ original_text | safe }}</div>
                 </div>
                 <div class="panel">
                     <div class="panel-header safe">
-                        <h3>🛡️ Safe/Masked Version</h3>
+                        <h3>Safe/Masked Version</h3>
                     </div>
                     <div class="panel-content" id="masked-content">{{ masked_text | safe }}</div>
                 </div>
             </div>
+        </div>
+    </div>
 
-            {% if analysis %}
-            <div class="analysis-panel">
-                <h3 class="analysis-title">📊 Reduction Analysis</h3>
-                <div class="analysis-grid">
-                    <div class="analysis-card">
-                        <div class="analysis-number">{{ analysis.total_masked }}</div>
-                        <div class="analysis-label">Total Masked Items</div>
-                    </div>
-                    <div class="analysis-card">
-                        <div class="analysis-number">{{ analysis.victim_family_count }}</div>
-                        <div class="analysis-label">Victims/Family</div>
-                    </div>
-                    <div class="analysis-card">
-                        <div class="analysis-number">{{ analysis.phone_count }}</div>
-                        <div class="analysis-label">Phone Numbers</div>
-                    </div>
-                    <div class="analysis-card">
-                        <div class="analysis-number">{{ analysis.email_count }}</div>
-                        <div class="analysis-label">Emails</div>
-                    </div>
-                    <div class="analysis-card">
-                        <div class="analysis-number">{{ analysis.location_count }}</div>
-                        <div class="analysis-label">Locations</div>
-                    </div>
-                    <div class="analysis-card">
-                        <div class="analysis-number">{{ analysis.reduction_percentage }}%</div>
-                        <div class="analysis-label">Text Reduction</div>
-                    </div>
-                </div>
+    <!-- Report Modal -->
+    <div class="modal-overlay" id="reportModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Report an Issue</h3>
+                <button class="modal-close" onclick="closeReportModal()">&times;</button>
             </div>
-            {% endif %}
+            <form class="report-form" onsubmit="submitReport(event)">
+                <textarea placeholder="Describe the issue (e.g., incorrect masking, false positives, etc.)..."></textarea>
+                <button type="submit">Submit Report</button>
+            </form>
         </div>
     </div>
 
     <script>
-        // Synchronized scrolling
+        function openReportModal() {
+            document.getElementById('reportModal').classList.add('active');
+        }
+        
+        function closeReportModal() {
+            document.getElementById('reportModal').classList.remove('active');
+        }
+        
+        function submitReport(e) {
+            e.preventDefault();
+            alert('Thank you for your report! We will review it shortly.');
+            closeReportModal();
+        }
+        
+        // Close modal on outside click
+        document.getElementById('reportModal').addEventListener('click', function(e) {
+            if (e.target === this) closeReportModal();
+        });
+    </script>
+
+{% elif docs %}
         const originalContent = document.getElementById('original-content');
         const maskedContent = document.getElementById('masked-content');
         
@@ -903,6 +1089,21 @@
         </div>
     </div>
 {% endif %}
+
+<script>
+    // Show loading screen when on comparison page
+    {% if view_mode == 'compare' %}
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            loadingScreen.classList.add('active');
+            
+            // Hide after content loads
+            setTimeout(function() {
+                loadingScreen.classList.remove('active');
+            }, 1500);
+        });
+    {% endif %}
+</script>
 
 </body>
 </html>
