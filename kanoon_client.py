@@ -9,10 +9,10 @@ class KanoonClient:
             "Accept": "application/json"
         }
 
-    def search_documents(self, query, doc_type=None):
+    def search_documents(self, query, doc_type='all'):
         """
         Search for documents. 
-        doc_type: filter by type - 'judgments' (default), 'acts', 'rules', 'all'
+        doc_type: filter by type - 'judgments', 'acts', 'rules', 'all' (default is 'all')
         """
         try:
             # Use POST request with data as per API
@@ -22,12 +22,12 @@ class KanoonClient:
                 data = resp.json()
                 docs = data.get('docs', [])
                 
-                # Filter to show only judgments (default behavior)
-                # doctype 1000 = judgments
-                if doc_type == 'judgments' or doc_type is None:
+                # Filter based on doc_type
+                if doc_type == 'judgments':
                     docs = [doc for doc in docs if doc.get('doctype') == 1000]
                 elif doc_type == 'acts':
                     docs = [doc for doc in docs if doc.get('doctype') != 1000]
+                # 'all' returns everything (no filtering)
                 
                 return {'docs': docs, 'total': len(docs)}
             else:
