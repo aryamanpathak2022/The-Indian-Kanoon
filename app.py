@@ -8,6 +8,7 @@ import uvicorn
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
+app.mount("/static", StaticFiles(directory="."), name="static")
 
 # Initialize Logic
 client = KanoonClient()
