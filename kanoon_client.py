@@ -15,8 +15,8 @@ class KanoonClient:
         doc_type: filter by type - 'judgments' (default), 'acts', 'rules', 'all'
         """
         try:
-            # Use GET request with params as per API
-            resp = requests.get(f"{self.base_url}/search/", headers=self.headers, params={"formInput": query})
+            # Use POST request with data as per API
+            resp = requests.post(f"{self.base_url}/search/", headers=self.headers, data={"formInput": query})
             
             if resp.status_code == 200:
                 data = resp.json()
@@ -28,7 +28,6 @@ class KanoonClient:
                     docs = [doc for doc in docs if doc.get('doctype') == 1000]
                 elif doc_type == 'acts':
                     docs = [doc for doc in docs if doc.get('doctype') != 1000]
-                # 'all' returns everything
                 
                 return {'docs': docs, 'total': len(docs)}
             else:
