@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kanoon SafeView - Legal Document Protection</title>
+    <title>Legal Privacy Protection</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -11,28 +11,66 @@
         :root {
             --primary: #1e3a5f;
             --primary-dark: #0f2744;
-            --accent: #22c55e;
-            --accent-light: #4ade80;
+            --accent: #fbbf24;
+            --accent-light: #fcd34d;
             --text-light: #ffffff;
             --text-muted: rgba(255, 255, 255, 0.9);
             --glass-bg: rgba(255, 255, 255, 0.1);
             --glass-border: rgba(255, 255, 255, 0.2);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'DM Sans', sans-serif;
-            overflow: hidden; /* Non-scrollable */
+            overflow: hidden;
             min-height: 100vh;
             background: var(--primary-dark);
         }
 
-        /* Background with overlay */
+        /* Loading Screen */
+        .loading-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .loading-screen.active { display: flex; }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(251, 191, 36, 0.2);
+            border-top-color: #fbbf24;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .loading-text {
+            margin-top: 24px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .loading-subtext {
+            margin-top: 8px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        /* Hero Section */
         .hero-section {
             position: relative;
             min-height: 100vh;
@@ -80,47 +118,6 @@
             pointer-events: auto;
         }
 
-        /* Full window background - no curve */
-        .hero-section {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
-            overflow: hidden;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 30px;
-        }
-
-        .logo-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            box-shadow: 0 8px 32px rgba(232, 185, 35, 0.3);
-        }
-
-        .logo-text {
-            font-family: 'Outfit', sans-serif;
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--text-light);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
         .beta-badge {
             display: inline-flex;
             align-items: center;
@@ -163,10 +160,7 @@
             font-weight: 500;
         }
 
-        .tagline span {
-            color: #fbbf24;
-            font-weight: 600;
-        }
+        .tagline span { color: #fbbf24; font-weight: 600; }
 
         .hero-title {
             font-family: 'Cormorant Garamond', serif;
@@ -197,7 +191,7 @@
             font-weight: 400;
         }
 
-        /* Glassmorphism Search Bar */
+        /* Search Bar */
         .search-container {
             position: relative;
             width: 100%;
@@ -205,7 +199,6 @@
             margin: 0 auto;
         }
 
-        /* Outer broader glass wrapper */
         .search-outer {
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(30px);
@@ -213,42 +206,26 @@
             border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 32px;
             padding: 8px;
-            box-shadow: 
-                0 16px 48px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.08);
             transition: all 0.3s ease;
         }
 
         .search-outer:focus-within {
             background: rgba(255, 255, 255, 0.12);
             border-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 
-                0 20px 60px rgba(0, 0, 0, 0.25),
-                inset 0 1px 0 rgba(255, 255, 255, 0.12);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.12);
         }
 
-        /* Inner glass */
         .search-glass {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 24px;
             padding: 6px 6px 6px 28px;
             transition: all 0.3s ease;
         }
 
-        .search-glass:focus-within {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.18);
-        }
-
-        /* Search form */
-        .search-form {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .search-form { display: flex; align-items: center; gap: 12px; }
 
         .search-input {
             flex: 1;
@@ -262,9 +239,7 @@
             opacity: 1;
         }
 
-        .search-input::placeholder {
-            color: rgba(255, 255, 255, 0.8);
-        }
+        .search-input::placeholder { color: rgba(255, 255, 255, 0.8); }
 
         .search-button {
             display: flex;
@@ -278,43 +253,29 @@
             border-radius: 16px;
             font-size: 14px;
             font-weight: 500;
-            font-family: 'DM Sans', sans-serif;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-family: 'DM Sans', sans-serif;
         }
 
-        .search-button:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-1px);
-        }
+        .search-button:hover { background: #f59e0b; transform: translateY(-2px); }
+        .search-button svg { width: 18px; height: 18px; }
 
-        .search-button svg {
-            width: 18px;
-            height: 18px;
-        }
-
-        /* Suggested Searches */
-        .suggestions {
-            margin-top: 24px;
-        }
+        /* Suggestions */
+        .suggestions { margin-top: 24px; }
 
         .suggestions-label {
             font-size: 13px;
-            color: var(--text-muted);
+            color: rgba(255, 255, 255, 0.8);
             margin-bottom: 12px;
         }
 
-        .suggestion-tags {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-        }
+        .suggestion-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
 
         .suggestion-tag {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            color: var(--text-light);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #ffffff;
             padding: 8px 16px;
             border-radius: 20px;
             font-size: 13px;
@@ -324,9 +285,9 @@
         }
 
         .suggestion-tag:hover {
-            background: rgba(232, 185, 35, 0.2);
-            border-color: var(--accent);
-            color: var(--accent);
+            background: rgba(251, 191, 36, 0.2);
+            border-color: #fbbf24;
+            color: #fbbf24;
         }
 
         /* Features */
@@ -342,7 +303,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            color: var(--text-muted);
+            color: rgba(255, 255, 255, 0.8);
             font-size: 14px;
         }
 
@@ -354,7 +315,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--accent);
+            color: #fbbf24;
         }
 
         /* Footer */
@@ -378,10 +339,7 @@
             font-weight: 500;
         }
 
-        .footer-tagline span {
-            color: #fbbf24;
-            font-weight: 600;
-        }
+        .footer-tagline span { color: #fbbf24; font-weight: 600; }
 
         .footer-secure {
             color: rgba(255, 255, 255, 0.8);
@@ -392,17 +350,7 @@
             text-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
         }
 
-        /* Results Section */
-        .results-section {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        /* Solid background pages (results & compare) */
+        /* Solid Pages */
         .solid-page {
             min-height: 100vh;
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
@@ -455,181 +403,21 @@
             margin-bottom: 30px;
         }
 
-        /* Updated doc-item for dark theme */
-        .solid-page .doc-item {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 24px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-bottom: 16px;
-            display: block;
-            text-decoration: none;
-        }
-
-        .solid-page .doc-item:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.15);
-            transform: translateX(8px);
-        }
-
-        .solid-page .doc-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 20px;
-            font-weight: 600;
-            color: #fff;
-            margin-bottom: 8px;
-        }
-
-        .solid-page .doc-headline {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.6);
-            line-height: 1.5;
-        }
-
-        .results-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .results-count {
-            font-size: 18px;
-            color: var(--text-light);
-            font-weight: 500;
-        }
-
         .back-btn {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            color: var(--text-light);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
             padding: 10px 20px;
             border-radius: 10px;
             font-size: 14px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-family: 'DM Sans', sans-serif;
+            text-decoration: none;
         }
 
-        .back-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-        }
+        .back-btn:hover { background: rgba(255, 255, 255, 0.15); }
 
-        .doc-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .doc-item {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 20px 24px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .doc-item:hover {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: var(--accent);
-            transform: translateX(8px);
-        }
-
-        .doc-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-light);
-            margin-bottom: 8px;
-        }
-
-        .doc-headline {
-            font-size: 14px;
-            color: var(--text-muted);
-            line-height: 1.5;
-        }
-
-        /* Comparison View */
-        .comparison-section {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 30px 20px;
-        }
-
-        .comparison-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-
-        .doc-title-large {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 24px;
-            font-weight: 600;
-            color: var(--text-light);
-        }
-
-        .comparison-panels {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            height: calc(100vh - 200px);
-        }
-
-        .panel {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .panel-header {
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--glass-border);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .panel-header h3 {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text-light);
-        }
-
-        .panel-header.safe {
-            background: linear-gradient(135deg, rgba(232, 185, 35, 0.2) 0%, rgba(244, 215, 107, 0.1) 100%);
-        }
-
-        .panel-content {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            color: var(--text-muted);
-            font-size: 14px;
-            line-height: 1.8;
-            white-space: pre-wrap;
-        }
-
-        /* Highlight masked portions */
-        .panel-content mark {
-            background: rgba(232, 185, 35, 0.3);
-            color: var(--accent-light);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: 500;
-        }
-
-        /* Report Button */
         .report-btn {
             display: inline-flex;
             align-items: center;
@@ -646,9 +434,91 @@
             font-family: 'DM Sans', sans-serif;
         }
 
-        .report-btn:hover {
-            background: rgba(239, 68, 68, 0.25);
-            transform: translateY(-2px);
+        .report-btn:hover { background: rgba(239, 68, 68, 0.25); transform: translateY(-2px); }
+
+        /* Doc List */
+        .doc-list { display: flex; flex-direction: column; gap: 16px; }
+
+        .doc-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            text-decoration: none;
+        }
+
+        .doc-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateX(8px);
+        }
+
+        .doc-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .doc-headline {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.5;
+        }
+
+        /* Comparison Panels */
+        .comparison-panels {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            height: calc(100vh - 250px);
+        }
+
+        .panel {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .panel-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .panel-header.safe { background: rgba(251, 191, 36, 0.1); }
+
+        .panel-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            line-height: 1.8;
+            white-space: pre-wrap;
+        }
+
+        .panel-content mark {
+            background: rgba(251, 191, 36, 0.3);
+            color: #fcd34d;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
         }
 
         /* Modal */
@@ -666,9 +536,7 @@
             justify-content: center;
         }
 
-        .modal-overlay.active {
-            display: flex;
-        }
+        .modal-overlay.active { display: flex; }
 
         .modal-content {
             background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
@@ -705,9 +573,7 @@
             line-height: 1;
         }
 
-        .modal-close:hover {
-            color: #fff;
-        }
+        .modal-close:hover { color: #fff; }
 
         .report-form textarea {
             width: 100%;
@@ -723,14 +589,8 @@
             margin-bottom: 16px;
         }
 
-        .report-form textarea:focus {
-            outline: none;
-            border-color: rgba(239, 68, 68, 0.5);
-        }
-
-        .report-form textarea::placeholder {
-            color: rgba(255, 255, 255, 0.4);
-        }
+        .report-form textarea:focus { outline: none; border-color: rgba(239, 68, 68, 0.5); }
+        .report-form textarea::placeholder { color: rgba(255, 255, 255, 0.4); }
 
         .report-form button {
             width: 100%;
@@ -746,61 +606,12 @@
             font-family: 'DM Sans', sans-serif;
         }
 
-        .report-form button:hover {
-            background: #dc2626;
-            transform: translateY(-2px);
-        }
-
-        /* Loading Screen */
-        .loading-screen {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-        }
-
-        .loading-screen.active {
-            display: flex;
-        }
-
-        .loader {
-            width: 60px;
-            height: 60px;
-            border: 3px solid rgba(251, 191, 36, 0.2);
-            border-top-color: #fbbf24;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .loading-text {
-            margin-top: 24px;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 16px;
-            font-family: 'DM Sans', sans-serif;
-        }
-
-        .loading-subtext {
-            margin-top: 8px;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 14px;
-            font-family: 'DM Sans', sans-serif;
-        }
+        .report-form button:hover { background: #dc2626; transform: translateY(-2px); }
 
         /* Analysis Panel */
         .analysis-panel {
-            background: linear-gradient(135deg, rgba(232, 185, 35, 0.15) 0%, rgba(30, 58, 95, 0.3) 100%);
-            border: 1px solid rgba(232, 185, 35, 0.3);
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.2);
             border-radius: 20px;
             padding: 24px;
             margin-top: 24px;
@@ -809,7 +620,7 @@
         .analysis-title {
             font-size: 18px;
             font-weight: 600;
-            color: var(--text-light);
+            color: #fff;
             margin-bottom: 20px;
             display: flex;
             align-items: center;
@@ -832,32 +643,22 @@
         .analysis-number {
             font-size: 32px;
             font-weight: 700;
-            color: var(--accent);
+            color: #fbbf24;
             line-height: 1;
         }
 
         .analysis-label {
             font-size: 12px;
-            color: var(--text-muted);
+            color: rgba(255, 255, 255, 0.6);
             margin-top: 8px;
         }
 
-        /* Animations */
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .hero-content > * {
-            animation: fadeInUp 0.6s ease forwards;
-        }
-
+        .hero-content > * { animation: fadeInUp 0.6s ease forwards; opacity: 0; }
         .hero-content > *:nth-child(1) { animation-delay: 0.1s; }
         .hero-content > *:nth-child(2) { animation-delay: 0.2s; }
         .hero-content > *:nth-child(3) { animation-delay: 0.3s; }
@@ -874,7 +675,7 @@
 </div>
 
 {% if view_mode == 'compare' %}
-    <!-- Comparison View - Solid Background -->
+    <!-- Comparison View -->
     <div class="solid-page">
         <div class="page-header">
             <div class="header-content">
@@ -889,7 +690,7 @@
                         </svg>
                         Report Issue
                     </button>
-                    <a href="/" class="back-btn">← Back</a>
+                    <a href="/" class="back-btn">Back</a>
                 </div>
             </div>
         </div>
@@ -928,8 +729,29 @@
         </div>
     </div>
 
-    <!-- Synchronized Scrolling Script for Comparison Page -->
     <script>
+        // Loading screen
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            loadingScreen.classList.add('active');
+            setTimeout(function() {
+                loadingScreen.classList.remove('active');
+            }, 1500);
+        });
+
+        // Modal functions
+        function openReportModal() { document.getElementById('reportModal').classList.add('active'); }
+        function closeReportModal() { document.getElementById('reportModal').classList.remove('active'); }
+        function submitReport(e) {
+            e.preventDefault();
+            alert('Thank you for your report! We will review it shortly.');
+            closeReportModal();
+        }
+        document.getElementById('reportModal').addEventListener('click', function(e) {
+            if (e.target === this) closeReportModal();
+        });
+
+        // Synchronized scrolling
         const originalContent = document.getElementById('original-content');
         const maskedContent = document.getElementById('masked-content');
         
@@ -954,7 +776,7 @@
                 }
             });
             
-            // Add highlight styling to masked portions
+            // Highlight masked portions
             maskedContent.innerHTML = maskedContent.innerHTML
                 .replace(/\[VICTIM\/FAMILY[_\d]*\]/g, '<mark>[VICTIM/FAMILY]</mark>')
                 .replace(/\[PHONE\]/g, '<mark>[PHONE]</mark>')
@@ -963,37 +785,15 @@
         }
     </script>
 
-    <script>
-        function openReportModal() {
-            document.getElementById('reportModal').classList.add('active');
-        }
-        
-        function closeReportModal() {
-            document.getElementById('reportModal').classList.remove('active');
-        }
-        
-        function submitReport(e) {
-            e.preventDefault();
-            alert('Thank you for your report! We will review it shortly.');
-            closeReportModal();
-        }
-        
-        // Close modal on outside click
-        document.getElementById('reportModal').addEventListener('click', function(e) {
-            if (e.target === this) closeReportModal();
-        });
-    </script>
-{% endif %}
-
 {% elif docs %}
-    <!-- Search Results - Solid Background -->
+    <!-- Search Results -->
     <div class="solid-page">
         <div class="page-header">
             <div class="header-content">
                 <a href="/" class="header-logo">
                     <span>Legal Privacy</span>
                 </a>
-                <a href="/" class="back-btn">← New Search</a>
+                <a href="/" class="back-btn">New Search</a>
             </div>
         </div>
         
@@ -1012,7 +812,7 @@
     </div>
 
 {% else %}
-    <!-- Hero / Landing Page -->
+    <!-- Landing Page -->
     <div class="hero-section">
         <div class="hero-bg">
             <img src="/static/bg.png" alt="Background">
@@ -1058,7 +858,7 @@
             </div>
 
             <div class="suggestions">
-                <p class="suggestions-label">🔥 Popular searches:</p>
+                <p class="suggestions-label">Popular searches:</p>
                 <div class="suggestion-tags">
                     <span class="suggestion-tag" onclick="document.querySelector('.search-input').value='dowry harassment'; document.querySelector('.search-form').submit();">Dowry Harassment</span>
                     <span class="suggestion-tag" onclick="document.querySelector('.search-input').value='rape case'; document.querySelector('.search-form').submit();">Rape Case</span>
@@ -1071,41 +871,26 @@
 
             <div class="features">
                 <div class="feature-item">
-                    <div class="feature-icon">🔒</div>
+                    <div class="feature-icon">&#128274;</div>
                     <span>Smart Privacy</span>
                 </div>
                 <div class="feature-item">
-                    <div class="feature-icon">⚡</div>
+                    <div class="feature-icon">&#9889;</div>
                     <span>Instant Redaction</span>
                 </div>
                 <div class="feature-item">
-                    <div class="feature-icon">📊</div>
+                    <div class="feature-icon">&#128202;</div>
                     <span>Reduction Analytics</span>
                 </div>
             </div>
         </div>
 
         <div class="footer">
-            <p class="footer-tagline">Handcrafted with love at <span>IIIT Bangalore</span> • 2026</p>
-            <p class="footer-secure">Secure • Private • Free</p>
+            <p class="footer-tagline">Handcrafted with love at <span>IIIT Bangalore</span> - 2026</p>
+            <p class="footer-secure">Secure - Private - Free</p>
         </div>
     </div>
 {% endif %}
-
-<script>
-    // Show loading screen when on comparison page
-    {% if view_mode == 'compare' %}
-        document.addEventListener('DOMContentLoaded', function() {
-            const loadingScreen = document.getElementById('loadingScreen');
-            loadingScreen.classList.add('active');
-            
-            // Hide after content loads
-            setTimeout(function() {
-                loadingScreen.classList.remove('active');
-            }, 1500);
-        });
-    {% endif %}
-</script>
 
 </body>
 </html>
